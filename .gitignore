@@ -1,0 +1,4 @@
+backend/venv
+backend/app/__pycache__
+backend/app/job_recommendation.db
+
