@@ -45,3 +45,13 @@ class Skill(SkillBase):
 
     class Config:
         from_attributes = True
+
+
+class AuthBase(BaseModel):
+    name: str
+    email: str
+    password: str
+
+class LoginBase(BaseModel):
+    email: str
+    password: str

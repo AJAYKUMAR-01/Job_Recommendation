@@ -1,5 +1,21 @@
 from sqlalchemy.orm import Session
 from . import models, schemas
+from typing import Optional
+
+#signup a new user
+def signup_user(user: schemas.AuthBase, db: Session):
+    db_user = models.Auth(
+        name = user.name,
+        email = user.email,
+        password = user.password,
+    )
+    db.add(db_user)
+    db.commit()
+    db.refresh(db_user)
+    return db_user
+
+def login_user(user: schemas.LoginBase, db: Session):
+    return db.query(models.Auth).filter(models.Auth.email == user.email and models.Auth.password == user.password).first()
 
 # Create a new user
 def create_user(db: Session, user: schemas.UserCreate):
@@ -82,3 +98,45 @@ def create_skill(db: Session, skill: schemas.SkillCreate):
 # Get all skills
 def get_skills(db: Session, skip: int = 0, limit: int = 10):
     return db.query(models.Skill).offset(skip).limit(limit).all()
+
+def get_recommendations(db: Session, user_id: int, skip: int = 0, limit: int = 10):
+    # Get the user
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if not user:
+        return []
+
+    # Get the user's skills
+    user_skills = {skill.name for skill in user.skills}
+
+    # Fetch jobs that match the user's skills
+    jobs = db.query(models.Job).all()
+    recommended_jobs = []
+    for job in jobs:
+        job_skills = {skill.name for skill in job.skills}
+        # Calculate match score based on overlapping skills
+        match_score = len(user_skills.intersection(job_skills))
+        if match_score > 0:  # Only recommend jobs with skill matches
+            recommended_jobs.append((job, match_score))
+
+    # Sort jobs by match score in descending order
+    recommended_jobs.sort(key=lambda x: x[1], reverse=True)
+
+    # Limit the number of recommendations
+    return [job[0] for job in recommended_jobs[skip:skip + limit]]
+
+def search_jobs(db: Session, location: Optional[str] = None, industry: Optional[str] = None, skill: Optional[str] = None):
+    query = db.query(models.Job)
+    
+    # Filter by location
+    if location:
+        query = query.filter(models.Job.location.ilike(f"%{location}%"))
+    
+    # Filter by industry
+    if industry:
+        query = query.filter(models.Job.industry.ilike(f"%{industry}%"))
+    
+    # Filter by skill
+    if skill:
+        query = query.join(models.Job.skills).filter(models.Skill.name.ilike(f"%{skill}%"))
+    
+    return query.all()

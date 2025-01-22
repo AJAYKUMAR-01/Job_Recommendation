@@ -16,6 +16,14 @@ def get_db():
     finally:
         db.close()
 
+@app.post("/signup/")
+def sign_up(user: schemas.AuthBase, db: Session = Depends(get_db)):
+    return crud.signup_user(user=user, db=db)
+
+@app.post("/login")
+def login(user: schemas.LoginBase, db: Session = Depends(get_db)):
+    return crud.login_user(user=user, db=db)
+
 @app.post("/users/", response_model=schemas.User)
 def create_user(user: schemas.UserCreate, db: Session = Depends(get_db)):
     return crud.create_user(db=db, user=user)
@@ -38,3 +46,8 @@ def create_job(job: schemas.JobCreate, db: Session = Depends(get_db)):
 @app.get("/jobs/", response_model=List[schemas.Job])
 def read_jobs(skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
     return crud.get_jobs(db, skip=skip, limit=limit)
+
+@app.get("/recommendations/{user_id}", response_model=List[schemas.Job])
+def get_recommendations(user_id: int, skip: int = 0, limit: int = 10, db: Session = Depends(get_db)):
+    return crud.get_recommendations(db=db, user_id=user_id, skip=skip, limit=limit)
+
