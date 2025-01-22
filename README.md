@@ -11,8 +11,12 @@ Ensure you have the following installed on your system:
 * [Python 3.8 or higher](https://www.python.org/downloads/)
 * [Git](https://git-scm.com/)
 
-----
+---
+## Video Recording
 
+[App - Youtube Video](https://youtu.be/KtgeBP3hmzE)
+[API_Testing - Youtube Video](https://youtu.be/7gQUwIdK5lk)
+---
 ## Backend
 ### Features
 * Home:
@@ -162,6 +166,65 @@ pytest
 * Add JWT-based authentication.
 * Introduce advanced job filters (e.g., location, salary).
 * Enhance the visualization with analytics dashboards.
+
+---
+
+## Learnings
+Building this project helped me grow both technically and personally. Here are some key takeaways:
+
+1. **FastAPI Framework**:
+   - Learned how to create RESTful APIs using FastAPI and handle user authentication.
+   - Gained experience in setting up database models and relationships with SQLAlchemy.
+
+2. **Streamlit for Frontend**:
+   - Developed an interactive and user-friendly interface with Streamlit.
+   - Integrated the frontend with the backend via API calls.
+
+3. **Database Management**:
+   - Implemented a relational database schema using SQLite.
+   - Understood how to manage many-to-many relationships (e.g., users and skills).
+
+4. **Docker**:
+   - Learned how to containerize applications using Docker and orchestrate services with Docker Compose.
+
+5. **Skill-Based Recommendations**:
+   - Designed and implemented algorithms to recommend jobs based on user skills.
+   - Explored strategies for ranking recommendations by relevance.
+
+6. **Soft Skills**:
+   - Improved problem-solving and debugging skills while tackling complex scenarios.
+   - Enhanced my ability to research and apply new tools effectively.
+
+---
+
+## Challenges Faced
+Building this project came with several challenges that pushed me to learn and adapt:
+
+1. **API Integration Issues**:
+   - Initially, I faced difficulties integrating the frontend and backend due to incorrect API requests.
+   - Solution: Used Swagger UI to debug API calls and refined request formats in the frontend.
+
+2. **Database Schema Changes**:
+   - After introducing skills in the signup process, the database schema needed updates.
+   - Solution: Used Alembic for database migrations and ensured the data remained consistent.
+
+3. **Docker Setup**:
+   - Containerizing both the backend and frontend and ensuring proper communication was tricky.
+   - Solution: Researched Docker networking and updated the frontend to use the containerized backend hostname.
+
+4. **Skill Matching Algorithm**:
+   - Designing an efficient algorithm to recommend jobs based on overlapping skills was challenging.
+   - Solution: Experimented with different approaches and optimized the final algorithm for scalability.
+
+5. **User Session Management**:
+   - Managing user sessions in Streamlit required additional care to maintain states across pages.
+   - Solution: Leveraged `st.session_state` to store user information securely.
+
+6. **Error Handling**:
+   - Handling errors gracefully in the frontend, especially during API calls, was a recurring issue.
+   - Solution: Added detailed error messages and logging for better debugging and user feedback.
+
+Despite these challenges, each obstacle was a valuable learning experience that enhanced the quality of the project.
 
 ---
 
