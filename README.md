@@ -15,6 +15,8 @@ Ensure you have the following installed on your system:
 
 ## Backend
 ### Features
+* Home:
+    ![Home Page](images/homepage.png)
 * User Management:
     * User registration and login.
     ![Registration](images/signup.png)
