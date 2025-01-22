@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-BASE_URL = "http://127.0.0.1:8000"  # Backend API URL
+BASE_URL = "http://127.0.0.1:8000"
 
 def login_or_signup():
     # Choose between Login and Signup
@@ -13,14 +13,13 @@ def login_or_signup():
         password = st.text_input("Password", type="password")
         
         if st.button("Login"):
-            # Simulate login API request
             response = requests.post(f"{BASE_URL}/login/", json={"email": email, "password": password})
             if response.status_code == 200:
                 user_data = response.json()
                 st.session_state["logged_in"] = True
                 st.session_state["user_id"] = user_data["id"]
-                st.success("Login successful!")
-                st.rerun()  # Redirect to the Home page
+                st.success(f"Welcome {user_data['name']}!")
+                st.rerun()
             else:
                 st.error("Invalid credentials. Please try again.")
 
@@ -28,13 +27,30 @@ def login_or_signup():
         st.subheader("Signup")
         name = st.text_input("Name")
         email = st.text_input("Email")
+        role = st.text_input("Role")
+        location = st.text_input("Location")
         password = st.text_input("Password", type="password")
         
+        # Multiselect box for skills
+        skills = st.multiselect(
+            "Select Your Skills",
+            ["Python", "SQL", "FastAPI", "Streamlit", "JavaScript", "React", "Machine Learning", "DevOps", "UI/UX"],
+        )
+        
         if st.button("Signup"):
-            # Simulate signup API request
-            response = requests.post(f"{BASE_URL}/signup/", json={"name": name, "email": email, "password": password})
-            if response.status_code == 201:
-                st.success("Signup successful! Please log in.")
-                st.rerun()  # Redirect to the Home page
+            if not all([name, email, role, location, password, skills]):
+                st.error("Please fill in all the details")
             else:
-                st.error("Signup failed. Please try again.")
+                response = requests.post(f"{BASE_URL}/signup/", json={
+                    "name": name,
+                    "email": email,
+                    "role": role,
+                    "location": location,
+                    "password": password,
+                    "skills": skills
+                })
+                if response.status_code == 200:
+                    st.success("Signup successful! Please log in.")
+                    st.rerun()
+                else:
+                    st.error("Signup failed. Please try again.")

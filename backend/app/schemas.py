@@ -1,21 +1,29 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional, List
 
-# User schemas
+# Base User schema
 class UserBase(BaseModel):
     name: str
-    location: Optional[str] = None
     email: str
-    preferences: Optional[str] = None
+    role: str
+    location: str
 
 class UserCreate(UserBase):
-    pass
+    password: str
+    skills: List[str]  # List of skill names for the user
 
+# Schema for login
+class UserLogin(BaseModel):
+    email: str
+    password: str
+
+# Response schema
 class User(UserBase):
     id: int
+    skills: List[str]  # This will be a list of skill names in the response
 
     class Config:
-        from_attributes = True
+        orm_mode = True
 
 # Job schemas
 class JobBase(BaseModel):
@@ -23,6 +31,8 @@ class JobBase(BaseModel):
     description: Optional[str] = None
     industry: Optional[str] = None
     location: Optional[str] = None
+    skills: List[str] = []  # List of skill names for the job
+
 
 class JobCreate(JobBase):
     pass
@@ -31,11 +41,14 @@ class Job(JobBase):
     id: int
 
     class Config:
-        from_attributes = True
+        orm_mode = True
+
 
 # Skill schemas
 class SkillBase(BaseModel):
     name: str
+    class Config:
+        orm_mode = True
 
 class SkillCreate(SkillBase):
     pass
@@ -44,14 +57,4 @@ class Skill(SkillBase):
     id: int
 
     class Config:
-        from_attributes = True
-
-
-class AuthBase(BaseModel):
-    name: str
-    email: str
-    password: str
-
-class LoginBase(BaseModel):
-    email: str
-    password: str
+        orm_mode = True
