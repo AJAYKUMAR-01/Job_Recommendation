@@ -8,8 +8,8 @@ The *Job Recommendation System* is a web-based application designed to provide p
 # Prerequisites
 Ensure you have the following installed on your system:
 
-* Python 3.8 or higher
-* Git
+* [Python 3.8 or higher](https://www.python.org/downloads/)
+* [Git](https://git-scm.com/)
 
 ----
 
@@ -17,11 +17,13 @@ Ensure you have the following installed on your system:
 ### Features
 * User Management:
     * User registration and login.
+    ![Registration](images/signup.png)
     * Skill-based profile creation.
 * Job Management:
     * Create, update, delete, and retrieve job postings.
 * Job Recommendations:
     * Recommend jobs based on user skills.
+    ![Job Recommendation](images/job.png)
     * Prioritize recommendations by skill match.
 
 #### Installation Instructions
@@ -66,20 +68,19 @@ The server will be accessible at http://localhost:8000.
 
 1. Register a User:
     * Endpoint: `POST /signup/`
-    * image
+    ![api1](images/api1.png)
 2. Log In:
     * Endpoint: `POST /login/`
-    * image
+    ![api2](images/api2.png)
 **Job Management**
 1. Create a Job:
     * Endpoint: `POST /jobs/`
-    * image
-2. Get All Jobs:
-    * Endpoint: `GET /jobs/`
+    ![api3](images/api3.png)
 
 **Recommendations**
 1. Get Job Recommendations:
     * Endpoint: `GET /recommendations/{user_id}`
+    ![api4](images/api4.png)
 
 ---
 
@@ -146,7 +147,8 @@ docker-compose up
 ```
 pytest
 ```
-2. Test APIs using Postman or the `/docs` Swagger UI.
+2. Test APIs using the `/docs` Swagger UI.
+![Swagger UI](images/SwaggerUI.png)
 
 ### Frontend
 1. Test user registration and login.
