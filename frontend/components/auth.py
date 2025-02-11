@@ -51,6 +51,5 @@ def login_or_signup():
                 })
                 if response.status_code == 200:
                     st.success("Signup successful! Please log in.")
-                    st.rerun()
                 else:
                     st.error("Signup failed. Please try again.")
